@@ -2,7 +2,7 @@ FROM openjdk:8-jdk-alpine
 
 EXPOSE 8089
 
-WORKDIR /app
+WORKDIR /app   
 
 COPY target/tpAchatProject-1.0.jar /app/app.jar
 
