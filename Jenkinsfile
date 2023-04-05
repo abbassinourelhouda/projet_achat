@@ -16,25 +16,25 @@ pipeline {
     stages{
 
 
-            // stage('Cleaning and install ') {
+             stage('Création de .jar ') {
 
-            //     steps {
+                 steps {
 
-            //     sh ' cd ${springF} && mvn clean install'
+                 sh ' cd ${springF} && mvn clean install'
 
-            //     }
-            // }
+                 }
+             }
 
-            // stage('build ') {
+             stage('Création de dist') {
 
-            //     steps {
+                 steps {
 
-            //     sh ' cd ${angularF} && npm install '
+                 sh ' cd ${angularF} && npm install'
 
-            //     sh ' cd ${angularF} && ng build '
+                 sh ' cd ${angularF} && ng build'
 
-            //     }
-            // }
+                 }
+             }
 
 
     }
