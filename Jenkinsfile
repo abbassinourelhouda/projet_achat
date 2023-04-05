@@ -15,13 +15,6 @@ pipeline {
 
     stages{
 
-             stage('Get project from GIT'){
-                steps{
-                    echo 'Pulling...';
-                    git branch: 'main',
-                    url : 'https://github.com/abbassinourelhouda/projet_achat.git';
-                }
-            }
 
             // stage('Cleaning and install ') {
 
