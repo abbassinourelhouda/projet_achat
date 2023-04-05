@@ -2,7 +2,7 @@ pipeline {
 
     tools {
             maven 'maven'
-            nodejs "NodeJS 16.3"         
+            nodejs "NodeJS"         
           }
 
     environment {
