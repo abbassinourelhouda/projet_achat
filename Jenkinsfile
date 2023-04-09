@@ -16,7 +16,7 @@ pipeline {
     stages{
 
 
-             stage('Création de .jar ') {
+            stage('Création de .jar ') {
 
                  steps {
 
@@ -25,7 +25,7 @@ pipeline {
                  }
              }
 
-             stage('Création de dist') {
+            stage('Création de dist') {
 
                  steps {
 
@@ -35,6 +35,47 @@ pipeline {
 
                  }
              }
+
+            stage("build and push back/front images"){
+         
+         
+                 steps{
+
+                    script {
+            
+             echo "====++++executing build and push back + front images++++===="
+    
+          withCredentials([usernamePassword(credentialsId: 'dockerhub_cred', passwordVariable: 'PASS', usernameVariable: 'USER')]){
+         
+                             sh "docker build -t $USER/achat_back ${springF}/"
+
+                             sh "docker build -t $USER/achat_front ${angularF}/"
+
+                             sh "echo $PASS | docker login -u $USER --password-stdin"
+
+                             sh "docker push $USER/achat_back"
+
+                             sh "docker push $USER/achat_front"
+                         }
+         }
+         }
+         post{
+
+             always{
+                 sh "docker logout"
+             }
+        
+             success{
+                 echo "====++++push image execution success++++===="
+             }
+        
+             failure{
+                 echo "====++++push image execution failed++++===="
+             }
+    
+         }
+     }
+
 
 
     }
