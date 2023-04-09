@@ -36,45 +36,32 @@ pipeline {
                  }
              }
 
-            stage("build and push back/front images"){
-         
-         
-                 steps{
 
-                    script {
-            
-             echo "====++++executing build and push back + front images++++===="
-    
-          withCredentials([usernamePassword(credentialsId: 'dockerhub_cred', passwordVariable: 'PASS', usernameVariable: 'USER')]){
-         
-                             sh "docker build -t $USER/achat_back ${springF}/"
+               stage('run docker-compose'){
 
-                             sh "docker build -t $USER/achat_front ${angularF}/"
+                 steps {
 
-                             sh "echo $PASS | docker login -u $USER --password-stdin"
+                sh 'docker-compose -f docker-compose.yml up  -d'
+                    }
 
-                             sh "docker push $USER/achat_back"
-
-                             sh "docker push $USER/achat_front"
-                         }
-         }
-         }
-         post{
-
-             always{
-                 sh "docker logout"
-             }
+             post{
         
              success{
-                 echo "====++++push image execution success++++===="
+                 echo "====++++Success++++===="
              }
         
              failure{
-                 echo "====++++push image execution failed++++===="
-             }
+                 echo "====++++Failed++++===="
+               }
     
          }
-     }
+                    
+
+       }
+
+
+
+           
 
 
 

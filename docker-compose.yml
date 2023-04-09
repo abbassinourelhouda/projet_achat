@@ -5,7 +5,7 @@ version: '3.7'
 services:
   # App backend service
   achat_back:
-    image: achat_back
+    image: abbassinour/achat_back
     ports:
       - "8089:8089" 
     container_name: app_back_cont
@@ -22,7 +22,7 @@ services:
 
   # Frontend Service 
   achat_front:
-    image: achat_front
+    image: abbassinour/achat_front
     container_name: app_front_cont
     ports:
       - "8084:80" 
