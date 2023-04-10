@@ -15,7 +15,7 @@ pipeline {
 
     stages{
 
-// test 10/04   teeeeeest
+// teeeeest
 
       stage('Nexus') {
 
