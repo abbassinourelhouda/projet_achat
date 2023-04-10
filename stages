@@ -1,3 +1,33 @@
+
+
+            stage('Création de .jar ') {
+
+                 steps {
+
+                 sh ' cd ${springF} && mvn clean install'
+
+                 }
+             }
+
+            stage('Création de dist') {
+
+                 steps {
+
+                 sh ' cd ${angularF} && npm install'
+
+                 sh ' cd ${angularF} && ng build'
+
+                 }
+             }
+
+
+
+
+
+
+
+
+
  stage("build and push back/front images"){
          
          
@@ -39,3 +69,24 @@
      }
 
 
+ stage('run docker-compose'){
+
+                 steps {
+
+                sh 'docker-compose -f docker-compose.yml up  -d'
+                    }
+
+             post{
+        
+             success{
+                 echo "====++++Success++++===="
+             }
+        
+             failure{
+                 echo "====++++Failed++++===="
+               }
+    
+         }
+                    
+
+       }

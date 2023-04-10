@@ -16,48 +16,26 @@ pipeline {
     stages{
 
 
-            stage('Création de .jar ') {
 
-                 steps {
+                  stage('Sonarqube') { 
+                steps { 
+                  
+                   sh '''
+                  
+                  cd ${springF} &&  mvn sonar:sonar \
+                 -Dsonar.projectKey=achat_proj \
+                 -Dsonar.projectName=achat_proj \
+                 -Dsonar.host.url=http://192.168.1.78:9000 \
+                 -Dsonar.login=cef4c391ef7d4eb31975f3b6de847a8184e57cb7
 
-                 sh ' cd ${springF} && mvn clean install'
+                     '''
 
-                 }
-             }
+                       }
 
-            stage('Création de dist') {
-
-                 steps {
-
-                 sh ' cd ${angularF} && npm install'
-
-                 sh ' cd ${angularF} && ng build'
-
-                 }
-             }
+            }
 
 
-               stage('run docker-compose'){
-
-                 steps {
-
-                sh 'docker-compose -f docker-compose.yml up  -d'
-                    }
-
-             post{
-        
-             success{
-                 echo "====++++Success++++===="
-             }
-        
-             failure{
-                 echo "====++++Failed++++===="
-               }
-    
-         }
-                    
-
-       }
+              
 
 
 
