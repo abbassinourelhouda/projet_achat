@@ -19,14 +19,14 @@ pipeline {
 
 
       
-            stage('Création d image back "livrable dans dockerfile"') {
+           // stage('Création d image back "livrable dans dockerfile"') {
 
-                 steps {
+             //    steps {
 
-                 sh ' cd ${springF} && docker build -t achat_back_2 .'
+             //    sh ' cd ${springF} && docker build -t achat_back_2 .'
 
-                 }
-             }
+              //   }
+            // }
 
       stage('Nexus') {
 
