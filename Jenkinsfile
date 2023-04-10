@@ -42,7 +42,7 @@ pipeline {
                    nexusUrl: '192.168.1.78:8081',
                    nexusVersion: 'nexus3',
                    protocol: 'http',
-                   repository: 'achat_app',
+                   repository: 'achat_proj',
                    version: '1.0'
 
                    }
