@@ -17,6 +17,17 @@ pipeline {
 
 // teeeeest 10/04
 
+
+      
+            stage('Création d image back "livrable dans dockerfile"') {
+
+                 steps {
+
+                 sh ' cd ${springF} && docker build -t achat_back_2 .'
+
+                 }
+             }
+
       stage('Nexus') {
 
                  steps {
