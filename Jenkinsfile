@@ -43,8 +43,7 @@ pipeline {
                      sh ' cd ${springF} && mvn clean install -DskipTests'
 
                               }
-                          }
-
+                         
               }
 
 
