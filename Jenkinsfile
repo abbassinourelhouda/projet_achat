@@ -161,7 +161,7 @@ pipeline {
 
                  steps {
 
-                 sh ' cd ${springF} && docker build -t achat_back_2 .'
+                 sh ' cd ${springF} && docker build -t achat_back_2 /dockerfile2/.'
 
                  }
         
