@@ -61,3 +61,7 @@ pipeline {
                     sh 'docker stop mysqldb-test && docker rm mysqldb-test'
                 }
                 }
+      
+    }
+
+}
