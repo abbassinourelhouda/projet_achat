@@ -110,6 +110,9 @@ pipeline {
                    version: '1.0'
 
                    }
+
+                 }
+          }
           
           // Build de l’image (spring + angular) +   Déposer les deux images sur DockerHub
           stage("build and push back/front images"){
@@ -133,8 +136,8 @@ pipeline {
 
                              sh "docker push $USER/achat_front"
                          }
-         }
-         }
+                 }
+            }
          post{
 
              always{
@@ -149,7 +152,9 @@ pipeline {
                  echo "====++++push image execution failed++++===="
              }
     
-         }
+            }
+
+          }
 
           // Création du livrable Spring à partir du fichier DockerFile
            stage('Création d image back "livrable dans dockerfile"') {
