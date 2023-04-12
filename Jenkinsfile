@@ -164,6 +164,7 @@ pipeline {
                  sh ' cd ${springF} && docker build -t achat_back_2 /dockerfile2/.'
 
                  }
+           }
         
           // Lancer simultanément en utilisant docker-compose (spring+angular+mysql+phpmyadmin)
           stage('run docker-compose'){
