@@ -14,7 +14,27 @@ pipeline {
           agent any
 
     stages{
-  // Stage: Création de /dist pour angular:front
+  
+                // Démarrer une instance de MySQL pour les tests
+             stage('Start MySQL') {
+
+                steps {
+                    sh 'docker run -d -p 3306:3306 --name mysqldb-test  -e MYSQL_ROOT_PASSWORD=nour123 -e MYSQL_DATABASE=tpachato mysql'
+                }
+                }
+
+               // Stage: Création de livrable pour spring:back
+              stage('Création de .jar ') {
+
+                  steps {
+
+                     sh ' cd ${springF} && mvn clean install -DskipTests'
+
+                              }
+                         
+              }
+
+               // Stage: Création de /dist pour angular:front
                stage('Création de dist') {
 
                  steps {
@@ -25,35 +45,36 @@ pipeline {
 
                  }
              }
-               // Stage: Création de livrable pour spring:back
-              stage('Création de .jar ') {
 
-                  steps {
-                    // Démarrer une instance de MySQL pour les tests
-                     sh 'docker run -d -p 3306:3306 --name mysqldb-test  -e MYSQL_ROOT_PASSWORD=nour123 -e MYSQL_DATABASE=tpachato mysql'
-                     
-                   // Stage: Création de livrable pour spring:back
-                     sh ' cd ${springF} && mvn clean install -DskipTests'
 
-                              }
-                         
-              }
-
-          
              // Lancement de test unitaire + mock pour l'entité produit
               stage('Test unitaire & mock produit') {
                 steps {
 
                     sh 'cd ${springF} && mvn test'
-
-            // Arrêter l'instance de MySQL pour les tests
-
-                    sh 'docker stop mysqldb-test && docker rm mysqldb-test'
                 }
                
                 }
 
-           // Lancer le test de qualité du code
+            // Arrêter l'instance de MySQL pour les tests
+            stage('Stop et suppression de MySQL') {
+
+                steps {
+                    sh 'docker stop mysqldb-test && docker rm mysqldb-test'
+                }
+                }
+             // Stage: Création de /dist pour angular:front
+               stage('Création de dist') {
+
+                 steps {
+
+                 sh ' cd ${angularF} && npm install'
+
+                 sh ' cd ${angularF} && ng build'
+
+                 }
+             } 
+           // Lancer le test de qualité du code (sonarqube)
             stage('Sonarqube') { 
                 steps { 
                   
