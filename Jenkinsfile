@@ -63,17 +63,7 @@ pipeline {
                     sh 'docker stop mysqldb-test && docker rm mysqldb-test'
                 }
                 }
-             // Stage: Création de /dist pour angular:front
-               stage('Création de dist') {
-
-                 steps {
-
-                 sh ' cd ${angularF} && npm install'
-
-                 sh ' cd ${angularF} && ng build'
-
-                 }
-             } 
+          
            // Lancer le test de qualité du code (sonarqube)
             stage('Sonarqube') { 
                 steps { 
