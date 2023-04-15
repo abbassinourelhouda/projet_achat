@@ -27,7 +27,7 @@ pipeline {
               stage('Création de .jar ') {
 
                   steps {
-                     sh 'docker run -d -p 3307:3307 --name mysqldb-test  -e MYSQL_ROOT_PASSWORD=nour123 -e MYSQL_DATABASE=tpachato mysql'
+                     sh 'docker run -d -p 3306:3306 --name mysqldb-test  -e MYSQL_ROOT_PASSWORD=nour123 -e MYSQL_DATABASE=tpachato mysql'
                      sh ' cd ${springF} && mvn clean install -DskipTests'
 
                               }
