@@ -14,21 +14,20 @@ pipeline {
           agent any
 
     stages {
-  ///test
+  
                 // Démarrer une instance de MySQL pour les tests
-             //stage('Start MySQL') {
+             stage('Start MySQL') {
 
-               // steps {
-                 //   sh 'docker run -d -p 3306:3306 --name mysqldb-test1  -e MYSQL_ROOT_PASSWORD=nour123 -e MYSQL_DATABASE=tpachato mysql'
-              //  }
-               // }
+                steps {
+                    sh 'docker run -d -p 3306:3306 --name mysqldb-test1  -e MYSQL_ROOT_PASSWORD=nour123 -e MYSQL_DATABASE=tpachato mysql'
+                }
+                }
 
                // Stage: Création de livrable pour spring:back
               stage('Création de .jar ') {
 
                   steps {
-                    sh 'docker run -d -p 3306:3306 --name mysqldb-test1  -e MYSQL_ROOT_PASSWORD=nour123 -e MYSQL_DATABASE=tpachato mysql'
-
+              
                      sh ' cd ${springF} && mvn clean install -DskipTests'
 
                               }
@@ -54,18 +53,18 @@ pipeline {
 
                     sh 'cd ${springF} && mvn test'
 
-                     sh 'docker stop mysqldb-test1 && docker rm -f mysqldb-test1'
+                  
                 }
                
                 }
 
             // Arrêter l'instance de MySQL pour les tests
-            //stage('Stop et suppression de MySQL') {
+            stage('Stop et suppression de MySQL') {
 
-                //steps {
-                  //  sh 'docker stop mysqldb-test1 && docker rm -f mysqldb-test1'
-               // }
-                //}
+                steps {
+                   sh 'docker stop mysqldb-test && docker rm -f mysqldb-test'
+                }
+                }
           
            // Lancer le test de qualité du code (sonarqube)
             stage('Sonarqube') { 
