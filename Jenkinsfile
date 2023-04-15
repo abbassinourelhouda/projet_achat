@@ -16,17 +16,18 @@ pipeline {
     stages {
   ///test
                 // Démarrer une instance de MySQL pour les tests
-             stage('Start MySQL') {
+             //stage('Start MySQL') {
 
-                steps {
-                    sh 'docker run -d -p 3306:3306 --name mysqldb-test1  -e MYSQL_ROOT_PASSWORD=nour123 -e MYSQL_DATABASE=tpachato mysql'
-                }
-                }
+               // steps {
+                 //   sh 'docker run -d -p 3306:3306 --name mysqldb-test1  -e MYSQL_ROOT_PASSWORD=nour123 -e MYSQL_DATABASE=tpachato mysql'
+              //  }
+               // }
 
                // Stage: Création de livrable pour spring:back
               stage('Création de .jar ') {
 
                   steps {
+                    sh 'docker run -d -p 3306:3306 --name mysqldb-test1  -e MYSQL_ROOT_PASSWORD=nour123 -e MYSQL_DATABASE=tpachato mysql'
 
                      sh ' cd ${springF} && mvn clean install -DskipTests'
 
@@ -34,17 +35,17 @@ pipeline {
                          
               }
 
-               // Stage: Création de /dist pour angular:front
-              // stage('Création de dist') {
+                Stage: Création de /dist pour angular:front
+               stage('Création de dist') {
 
-               //  steps {
+                 steps {
 
-                // sh ' cd ${angularF} && npm install'
+                 sh ' cd ${angularF} && npm install'
 
-                // sh ' cd ${angularF} && ng build'
+                 sh ' cd ${angularF} && ng build'
 
-               //  }
-         //    }
+                 }
+             }
 
 
              // Lancement de test unitaire + mock pour l'entité produit
@@ -52,17 +53,19 @@ pipeline {
                 steps {
 
                     sh 'cd ${springF} && mvn test'
+
+                     sh 'docker stop mysqldb-test1 && docker rm -f mysqldb-test1'
                 }
                
                 }
 
             // Arrêter l'instance de MySQL pour les tests
-            stage('Stop et suppression de MySQL') {
+            //stage('Stop et suppression de MySQL') {
 
-                steps {
-                    sh 'docker stop mysqldb-test1 && docker rm -f mysqldb-test1'
-                }
-                }
+                //steps {
+                  //  sh 'docker stop mysqldb-test1 && docker rm -f mysqldb-test1'
+               // }
+                //}
           
            // Lancer le test de qualité du code (sonarqube)
             stage('Sonarqube') { 
@@ -117,46 +120,46 @@ pipeline {
           }
           
           // Build de l’image (spring + angular) +   Déposer les deux images sur DockerHub
-         // stage("build and push back/front images"){
+          stage("build and push back/front images"){
          
          
-          //       steps{
+                 steps{
 
-           //         script {
+                    script {
             
-           //  echo "====++++executing build and push back + front images++++===="
+             echo "====++++executing build and push back + front images++++===="
     
-        //  withCredentials([usernamePassword(credentialsId: 'dockerhub_cred', passwordVariable: 'PASS', usernameVariable: 'USER')]){
+          withCredentials([usernamePassword(credentialsId: 'dockerhub_cred', passwordVariable: 'PASS', usernameVariable: 'USER')]){
          
-                          //   sh "docker build -t $USER/achat_back ${springF}/"
+                             sh "docker build -t $USER/achat_back ${springF}/"
 
-                            // sh "docker build -t $USER/achat_front ${angularF}/"
+                             sh "docker build -t $USER/achat_front ${angularF}/"
 
-                            // sh "echo $PASS | docker login -u $USER --password-stdin"
+                             sh "echo $PASS | docker login -u $USER --password-stdin"
 
-                            // sh "docker push $USER/achat_back"
+                             sh "docker push $USER/achat_back"
 
-                            // sh "docker push $USER/achat_front"
-                        // }
-                // }
-           // }
-         //post{
+                             sh "docker push $USER/achat_front"
+                         }
+                 }
+            }
+         post{
 
-            // always{
-              //   sh "docker logout"
-            // }
+             always{
+                 sh "docker logout"
+             }
         
-             //success{
-               //  echo "====++++push image execution success++++===="
-            // }
+             success{
+                 echo "====++++push image execution success++++===="
+             }
         
-             //failure{
-               //  echo "====++++push image execution failed++++===="
-            // }
+             failure{
+                 echo "====++++push image execution failed++++===="
+             }
     
-          //  }
+            }
 
-         // }
+          }
           // Création du livrable Spring à partir du fichier DockerFile
            //stage('Création d image back "livrable dans dockerfile"') {
 
