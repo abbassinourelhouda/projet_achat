@@ -35,7 +35,7 @@ pipeline {
                          
               }
 
-                Stage: Création de /dist pour angular:front
+                //Stage: Création de /dist pour angular:front
                stage('Création de dist') {
 
                  steps {
