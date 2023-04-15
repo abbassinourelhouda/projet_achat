@@ -60,7 +60,7 @@ pipeline {
             stage('Stop et suppression de MySQL') {
 
                 steps {
-                    sh 'docker stop mysqldb-test && docker rm mysqldb-test'
+                    sh 'docker stop mysqldb-test && docker rm -f mysqldb-test'
                 }
                 }
           
