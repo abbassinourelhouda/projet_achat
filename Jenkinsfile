@@ -19,7 +19,7 @@ pipeline {
              stage('Start MySQL') {
 
                 steps {
-                    sh 'docker run -d -p 3306:3306 --name mysqldb-test1  -e MYSQL_ROOT_PASSWORD=nour123 -e MYSQL_DATABASE=tpachato mysql'
+                    sh 'docker run -d -p 3306:3306 --name mysqldb-test  -e MYSQL_ROOT_PASSWORD=nour123 -e MYSQL_DATABASE=tpachato mysql'
                 }
                 }
 
