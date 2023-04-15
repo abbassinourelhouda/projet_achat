@@ -14,6 +14,7 @@ pipeline {
           agent any
 
     stages {
+      //test
   
                 // Démarrer une instance de MySQL pour les tests
              //stage('Start MySQL') {
